@@ -73,7 +73,7 @@ export default function HomePage() {
             onChange={(e) => setContent(e.target.value)}
           />
           <PublishButton type="submit" disabled={isLoading}>
-            Publish
+            {isLoading ? "Publishing" : "Publish"}
           </PublishButton>
         </NewPostInfos>
       </NewPost>
