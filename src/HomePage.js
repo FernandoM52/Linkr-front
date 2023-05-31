@@ -9,7 +9,7 @@ export default function HomePage() {
     "# react",
     "# react-native",
     "# material",
-    " # web-dev",
+    "# web-dev",
     "# mobile",
     "# css",
     "# html",
@@ -19,8 +19,10 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+  const userPhoto = localStorage.getItem("photo");
 
   async function publishPost(event) {
     event.preventDefault();
@@ -30,23 +32,22 @@ export default function HomePage() {
     const body = { link, content };
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer c0fab7ec-61c5-42b4-adef-3861f303e981`,
       },
     };
 
     try {
-      // await axios.post(url, body, config);
-
-      setTimeout(NotLoading, 1000);
-
+      await axios.post(url, body, config);
+      setLink("");
+      setContent("");
+      setIsLoading(false);
     } catch (err) {
-      setTimeout(NotLoading, 1000);
-      alert(err.response.data.message);
+      alert("Houve um erro ao publicar seu link");
+      setLink("");
+      setContent("");
+      setIsLoading(false);
     }
-  }
-
-  function NotLoading(){
-    setIsLoading(false);
   }
 
   return (
@@ -54,10 +55,16 @@ export default function HomePage() {
 
     <Container>
       <NewPost>
-        <img src="https://i.imgflip.com/22zhdm.jpg?a467976" alt="" />
+        <img
+          src={
+            !userPhoto ? "https://i.imgflip.com/22zhdm.jpg?a467976" : userPhoto
+          }
+          alt="userPhoto"
+        />
 
         <NewPostInfos onSubmit={publishPost}>
           <p>What are you going to share today?</p>
+
           <NewPostUrl
             type="text"
             placeholder="http://..."
@@ -66,12 +73,14 @@ export default function HomePage() {
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
+
           <NewPostDescription
             placeholder="Awesome article about #javascript"
             disabled={isLoading}
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
+
           <PublishButton type="submit" disabled={isLoading}>
             {isLoading ? "Publishing" : "Publish"}
           </PublishButton>
@@ -149,7 +158,7 @@ const PublishButton = styled.button`
   right: 0;
   bottom: 0;
 
-  cursor: ${(props) => (props.disabled ? "default" : "pointer")};;
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   width: 112px;
   height: 31px;
 
