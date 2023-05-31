@@ -1,6 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './HomePage.jsx';
 
 function App() {
   return (
@@ -8,7 +7,7 @@ function App() {
       <Routes>
         <Route path="/" />
         <Route path="/" />
-        <Route path="/" />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/" />
         <Route path="/" />
         <Route path="/" />
