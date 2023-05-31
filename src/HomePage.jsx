@@ -12,10 +12,16 @@ export default function HomePage() {
     //Aqui vai ter um Header
 
     <Container>
+      <NewPost>
+        <img src="https://i.imgflip.com/22zhdm.jpg?a467976" alt="" />
 
-      <div>
-        Timeline
-      </div>
+        <NewPostInfos>
+          <p>What are you going to share today?</p>
+          <NewPostUrl type="text" placeholder="http://..."/>
+          <NewPostDescription placeholder="Awesome article about #javascript"/>
+          <button>Publish</button>
+        </NewPostInfos>
+      </NewPost>
 
       <TrendingsContainer>
         <StyledTitle>
@@ -39,12 +45,95 @@ export default function HomePage() {
 const Container = styled.div`
   *{
   box-sizing: border-box;
+  font-family: 'Lato';
   }
+  height: 100vh;
   background-color: #333333;
   display:  flex;
-  align-items: center;
+  justify-content: center;
   gap: 25px;
 `;
+
+const NewPost = styled.div`
+  width: 610px;
+  height: 200px;
+  margin-top: 43px;
+  padding: 20px;
+  gap: 15px;
+  
+  border-radius: 16px;
+  background-color: #FFFFFF;
+
+  display:  flex;
+
+  img{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+`
+
+const NewPostInfos = styled.form`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+
+  p{
+    color: #707070;
+  }
+
+  button{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    cursor: pointer;
+    width: 112px;
+    height: 31px;
+
+    border-radius: 5px;
+    background: #1877F2;
+    color: #FFFFFF;
+    border: none;
+    font-weight: 700;
+    font-size: 14px;
+  }
+`
+
+const NewPostUrl = styled.input`
+  height: 30px;
+  background: #EFEFEF;
+  border-radius: 5px;
+  padding: 10px 15px;
+  border: none;
+  color: black;
+  text-align: left;
+
+  ::placeholder{
+    color: #949494;
+  }
+`
+
+const NewPostDescription = styled.textarea`
+  resize: none;
+  height: 65px;
+  background: #EFEFEF;
+  border-radius: 5px;
+  padding: 10px 15px;
+  border: none;
+  color: black;
+  text-align: left;
+
+  ::placeholder{
+    color: #949494;
+  }
+`
 
 const TrendingsContainer = styled.div`
   background-color: #171717;
