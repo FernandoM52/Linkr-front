@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import PostsList from "./pages/PostsList";
 
 export default function HomePage() {
   const [trendings, setTrendings] = useState([
@@ -54,39 +55,41 @@ export default function HomePage() {
     //Aqui vai ter um Header
 
     <Container>
-      <NewPost>
-        <img
-          src={
-            !userPhoto ? "https://i.imgflip.com/22zhdm.jpg?a467976" : userPhoto
-          }
-          alt="userPhoto"
-        />
-
-        <NewPostInfos onSubmit={publishPost}>
-          <p>What are you going to share today?</p>
-
-          <NewPostUrl
-            type="text"
-            placeholder="http://..."
-            required
-            disabled={isLoading}
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
+      <PostsContainer>
+        <NewPost>
+          <img
+            src={
+              !userPhoto ? "https://i.imgflip.com/22zhdm.jpg?a467976" : userPhoto
+            }
+            alt="userPhoto"
           />
 
-          <NewPostDescription
-            placeholder="Awesome article about #javascript"
-            disabled={isLoading}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <NewPostInfos onSubmit={publishPost}>
+            <p>What are you going to share today?</p>
 
-          <PublishButton type="submit" disabled={isLoading}>
-            {isLoading ? "Publishing" : "Publish"}
-          </PublishButton>
-        </NewPostInfos>
-      </NewPost>
+            <NewPostUrl
+              type="text"
+              placeholder="http://..."
+              required
+              disabled={isLoading}
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+            />
 
+            <NewPostDescription
+              placeholder="Awesome article about #javascript"
+              disabled={isLoading}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+
+            <PublishButton type="submit" disabled={isLoading}>
+              {isLoading ? "Publishing" : "Publish"}
+            </PublishButton>
+          </NewPostInfos>
+        </NewPost>
+        <PostsList></PostsList>
+      </PostsContainer>
       <TrendingsContainer>
         <StyledTitle>trending</StyledTitle>
         <StyledWrapper />
@@ -117,6 +120,13 @@ const Container = styled.div`
   gap: 25px;
 `;
 
+const PostsContainer = styled.div`
+display: flex;
+flex-direction: column;
+margin-top: 25px;
+gap: 25px;
+
+`
 const NewPost = styled.div`
   width: 610px;
   height: 200px;
