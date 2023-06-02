@@ -28,6 +28,7 @@ export default function Header({ setReload }) {
                 <LogOut onClick={() => logout()} open={menu} data-test="menu">
                     <p data-test="logout">Logout</p>
                 </LogOut>
+                <img src={user.user.photo} onClick={() => setMenu(!menu)} data-test="avatar" />
             </div>
         </HeaderStyle>
     )
