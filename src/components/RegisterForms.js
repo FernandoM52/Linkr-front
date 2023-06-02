@@ -124,7 +124,7 @@ const RegisterFormDiv = styled.div`
         margin-bottom:22px;
         input{
             height:65px;
-            width:100%;
+            width:93%;
             border:none;
             border-radius:5px;
             margin-bottom:13px;
@@ -141,6 +141,8 @@ const RegisterFormDiv = styled.div`
             cursor:pointer;
             height: 65px;
             width: 100%;
+            margin-bottom: 13px;
+            padding: 17px 15px;
             border:none;
             border-radius: 5px;
             background-color:#1877F2;
