@@ -118,6 +118,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   gap: 25px;
+  height: 100%;
 `;
 
 const PostsContainer = styled.div`
@@ -125,6 +126,7 @@ display: flex;
 flex-direction: column;
 margin-top: 25px;
 gap: 25px;
+min-height: 1000px;
 
 `
 const NewPost = styled.div`
