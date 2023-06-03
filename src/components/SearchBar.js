@@ -31,18 +31,19 @@ const Search = styled.div`
             border-radius: 8px;
             border-style: none;
             padding: 5px;
+            font-size: 20px;
             &::placeholder {
                 color: #C6C6C6;
             }
             &:focus-visible {
                 outline: none;
             }
-           
         }
+
         p {
             position: absolute;
             right: 10px;
-            top: 13px;
+            top: 20px;
             color: #C6C6C6;
         }
 

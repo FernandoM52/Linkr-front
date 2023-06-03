@@ -6,46 +6,52 @@ import axios from "axios";
 import { AuthContext } from "../providers/auth";
 import Loading from "./Loading";
 
+
 export default function LoginForms() {
     const [form, setForm] = React.useState({
         email: '',
         password: ''
-    })
-    const { setUser } = React.useContext(AuthContext)
-    const navigate = useNavigate()
-    const [submited, setSubmited] = React.useState(false)
+    });
+    const { setUser } = React.useContext(AuthContext);
+    const navigate = useNavigate();
+    const [submited, setSubmited] = React.useState(false);
 
     if (localStorage.getItem('userSessionInfoLinkr')) {
-        setUser(JSON.parse(localStorage.getItem('userSessionInfoLinkr')))
-        navigate("/timeline")
+        setUser(JSON.parse(localStorage.getItem('userSessionInfoLinkr')));
+        navigate("/timeline");
     }
 
     function handleForm(e) {
-        setForm({ ...form, [e.target.name]: e.target.value })
+        setForm({ ...form, [e.target.name]: e.target.value });
     }
 
-    function failedLogin(e) {
-        alert(e.response.data)
-        setSubmited(false)
+    function failedLogin(error) {
+        if (error.response && error.response.status === 401) {
+            alert('Email e/ou senha incorretas.');
+        } else {
+            alert('Ocorreu um erro durante o login. Tente novamente!');
+        }
+        setSubmited(false);
     }
 
-    function didLogin(a) {
-        setUser(a.data)
-        navigate("/timeline")
-        const userSessionInfoLinkr = JSON.stringify(a.data)
+    function didLogin(response) {
+        setUser(response.data);
+        navigate("/timeline");
+        const userSessionInfoLinkr = JSON.stringify(response.data);
         localStorage.setItem('userSessionInfoLinkr', userSessionInfoLinkr);
     }
 
     function doLogin(e) {
-        setSubmited(true)
+        setSubmited(true);
         e.preventDefault();
-        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}/`, {
+        axios.post(`${process.env.REACT_APP_API_URL}/`, {
             email: form.email,
             password: form.password
         })
-        postLogin.then((answer) => didLogin(answer))
-        postLogin.catch((error) => failedLogin(error))
+            .then((response) => didLogin(response))
+            .catch((error) => failedLogin(error));
     }
+
     return (
         <RightSideDiv>
             <LoginFormDiv>
@@ -81,7 +87,6 @@ export default function LoginForms() {
                         First time? Create an account!
                     </p>
                 </StyledLink>
-
             </LoginFormDiv>
         </RightSideDiv>
     );
@@ -118,6 +123,8 @@ const LoginFormDiv = styled.div`
             margin-bottom:13px;
             padding:17px 15px 17px 15px;
             color:#000000;
+            font-size: 27px;
+            font-family: 'Oswald';
             &::placeholder{
                 font-family: 'Oswald';
                 font-size: 27px;
@@ -151,11 +158,10 @@ const LoginFormDiv = styled.div`
 const StyledLink = styled(Link)`
     color:#ffffff;
     width:100%;
-    text-decoration: underline;
-    font-family: 'Raleway',sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 18px;
-    letter-spacing: 0em;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration-line: underline;
     text-align: center;
 `;

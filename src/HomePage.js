@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import PostsList from "./pages/PostsList";
+import Header from "./components/Header";
 
 export default function HomePage() {
   const [trendings, setTrendings] = useState([
@@ -52,8 +53,8 @@ export default function HomePage() {
   }
 
   return (
-    //Aqui vai ter um Header
-
+    <>
+    <Header/>
     <Container>
       <PostsContainer>
         <NewPost>
@@ -105,6 +106,7 @@ export default function HomePage() {
         </ul>
       </TrendingsContainer>
     </Container>
+    </>
   );
 }
 
