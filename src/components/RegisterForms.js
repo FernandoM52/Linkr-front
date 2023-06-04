@@ -11,34 +11,42 @@ export default function RegisterForms() {
         password: '',
         name: '',
         photo: ''
-    })
+    });
 
-    const navigate = useNavigate()
-    const [submited, setSubmited] = React.useState(false)
+    const navigate = useNavigate();
+    const [submited, setSubmited] = React.useState(false);
 
     if (localStorage.getItem('userSessionInfoLinkr')) {
-        navigate("/timeline")
+        navigate("/timeline");
     }
 
     function handleForm(e) {
-        setForm({ ...form, [e.target.name]: e.target.value })
+        setForm({ ...form, [e.target.name]: e.target.value });
     }
-    function failedRegister(e) {
-        alert(e.response.data)
-        setSubmited(false)
+
+    function failedRegister(error) {
+        if (error.response && error.response.status === 409) {
+            alert('Email já existente');
+        } else {
+            alert('Ocorreu um erro no seu registro. Tente novamente!');
+        }
+        setSubmited(false);
+        window.location.reload(); // Recarrega a página
     }
+
     function doRegister(e) {
-        setSubmited(true)
+        setSubmited(true);
         e.preventDefault();
-        const registerPost = axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, {
+        axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, {
             email: form.email,
             password: form.password,
             name: form.name,
             photo: form.photo
         })
-        registerPost.then(() => navigate("/"))
-        registerPost.catch((e) => failedRegister(e))
+            .then(() => navigate("/"))
+            .catch((error) => failedRegister(error));
     }
+
     return (
         <RightSideDiv>
             <RegisterFormDiv>
@@ -121,7 +129,7 @@ const RegisterFormDiv = styled.div`
         display:flex;
         flex-direction: column;
         margin-top:24px;
-        margin-bottom:22px;
+
         input{
             height:65px;
             width:93%;
@@ -130,6 +138,8 @@ const RegisterFormDiv = styled.div`
             margin-bottom:13px;
             padding:17px 15px 17px 15px;
             color:#000000;
+            font-size: 27px;
+            font-family: 'Oswald';
             &::placeholder{
                 font-family: 'Oswald';
                 font-size: 27px;
@@ -165,11 +175,10 @@ const RegisterFormDiv = styled.div`
 const StyledLink = styled(Link)`
     color:#ffffff;
     width:100%;
-    text-decoration: underline;
-    font-family: 'Raleway',sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 18px;
-    letter-spacing: 0em;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration-line: underline;
     text-align: center;
 `;
