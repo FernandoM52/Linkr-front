@@ -5,35 +5,33 @@ import { DebounceInput } from 'react-debounce-input';
 export default function SearchBar() {
 
     return (
-        <div>
-            <Search>
-                <DebounceInput
-                    data-test="search"
-                    minLength={3}
-                    debounceTimeout={300}
-                    placeholder="Search for people"
-                />
-                <p><BsSearch /></p>
-            </Search>
-
-        </div>
-    )
+        <Search>
+            <DebounceInput
+                data-test="search"
+                minLength={3}
+                debounceTimeout={300}
+                placeholder="Search for people"
+            />
+            <p><BsSearch /></p>
+        </Search>
+    );
 }
 
 
 const Search = styled.div`
     display: flex;
     position: relative;
-    width: 563px;
+    width: 39%;
         input {
             width: 100%;
-            height: 45px;
             border-radius: 8px;
             border-style: none;
-            padding: 5px;
-            font-size: 20px;
+            padding: 2%;
+            font-weight: 400;
+            font-size: 19px;
+            line-height: 10px;
             &::placeholder {
-                color: #C6C6C6;
+                color: #C6C6C6; 
             }
             &:focus-visible {
                 outline: none;
@@ -42,8 +40,8 @@ const Search = styled.div`
 
         p {
             position: absolute;
-            right: 10px;
-            top: 20px;
+            right: 2%;
+            top: 37%;
             color: #C6C6C6;
         }
 
