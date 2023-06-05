@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
@@ -6,12 +5,14 @@ import PostsList from "./PostsList";
 import Header from "../components/Header";
 import TrendingColumn from "../components/TrendingColumn/TrendingColum";
 import { AuthContext } from "../providers/auth";
+import { useGetTrendings } from "../services/trendings";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const { user } = useContext(AuthContext);
+  const { trendings } = useGetTrendings();
 
   const token = localStorage.getItem("token");
   const userPhoto = localStorage.getItem("photo");

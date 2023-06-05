@@ -26,7 +26,7 @@ export default function TrendingPage() {
           <Timeline>
             {!timeline && <>Carregando...</>}
             {timeline && timeline.length === 0 && <>Não há posts dessa trending</>}
-            {timeline && timeline.map((t, i) => <TrendingPosts key={i} posts={t} />)}
+            {timeline && timeline?.map((t, i) => <TrendingPosts key={i} posts={t} />)}
           </Timeline>
           <TrendingColumn trendings={trendings} />
         </Main>
