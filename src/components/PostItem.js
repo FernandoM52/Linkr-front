@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { HiOutlineHeart, HiOutlineExternalLink, HiTrash } from "react-icons/hi";
-import ReactHashtag from "react-hashtag";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 
@@ -19,15 +18,13 @@ export default function PostItem(props, post) {
         <Posts>
             <LeftSide>
                 <img alt="user" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQXN_tLW6Dr_7vlJi7PS8S5EUEbt47E-Jhvg&usqp=CAU" />
-                <LikeButton postId={post.id}/>
+                <LikeButton postId={post.id} />
             </LeftSide>
             <MainContent>
                 <HiTrash size={22} />
                 <h3>Let</h3>
                 <p>
-                    <ReactHashtag>
-                        {content}
-                    </ReactHashtag>
+                    {content}
                 </p>
                 <LinkContainer onClick={() => window.open(link)}>
                     <InfoContainer>
