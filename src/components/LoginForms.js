@@ -1,23 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../providers/auth";
 import Loading from "./Loading";
 
-
 export default function LoginForms() {
     const [form, setForm] = React.useState({
-        email: '',
-        password: ''
+        email: "",
+        password: "",
     });
     const { setUser } = React.useContext(AuthContext);
     const navigate = useNavigate();
     const [submited, setSubmited] = React.useState(false);
 
-    if (localStorage.getItem('userSessionInfoLinkr')) {
-        setUser(JSON.parse(localStorage.getItem('userSessionInfoLinkr')));
+    if (localStorage.getItem("userSessionInfoLinkr")) {
+        setUser(JSON.parse(localStorage.getItem("userSessionInfoLinkr")));
         navigate("/timeline");
     }
 
@@ -27,9 +26,9 @@ export default function LoginForms() {
 
     function failedLogin(error) {
         if (error.response && error.response.status === 401) {
-            alert('Email e/ou senha incorretas.');
+            alert("Email e/ou senha incorretas.");
         } else {
-            alert('Ocorreu um erro durante o login. Tente novamente!');
+            alert("Ocorreu um erro durante o login. Tente novamente!");
         }
         setSubmited(false);
     }
@@ -38,16 +37,24 @@ export default function LoginForms() {
         setUser(response.data);
         navigate("/timeline");
         const userSessionInfoLinkr = JSON.stringify(response.data);
-        localStorage.setItem('userSessionInfoLinkr', userSessionInfoLinkr);
+        localStorage.setItem("userSessionInfoLinkr", userSessionInfoLinkr);
     }
 
     function doLogin(e) {
-        setSubmited(true);
         e.preventDefault();
-        axios.post(`${process.env.REACT_APP_API_URL}/`, {
-            email: form.email,
-            password: form.password
-        })
+
+        // Verificar se os campos estão preenchidos
+        if (!form.email.trim() || !form.password.trim()) {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        setSubmited(true);
+        axios
+            .post(`${process.env.REACT_APP_API_URL}/`, {
+                email: form.email,
+                password: form.password,
+            })
             .then((response) => didLogin(response))
             .catch((error) => failedLogin(error));
     }
@@ -61,7 +68,6 @@ export default function LoginForms() {
                         disabled={false}
                         name="email"
                         type="email"
-                        required
                         placeholder="e-mail"
                         onChange={handleForm}
                         value={form.email}
@@ -71,26 +77,22 @@ export default function LoginForms() {
                         disabled={false}
                         name="password"
                         type="password"
-                        required
                         placeholder="password"
                         onChange={handleForm}
                         value={form.password}
                     />
-                    <button
-                        data-test="login-btn"
-                        disabled={submited}
-                        type="submit"
-                    >{submited ? <Loading /> : "Log in"}</button>
+                    <button data-test="login-btn" disabled={submited} type="submit">
+                        {submited ? <Loading /> : "Log in"}
+                    </button>
                 </form>
                 <StyledLink to="/sign-up">
-                    <p data-test="sign-up-link">
-                        First time? Create an account!
-                    </p>
+                    <p data-test="sign-up-link">First time? Create an account!</p>
                 </StyledLink>
             </LoginFormDiv>
         </RightSideDiv>
     );
 }
+
 
 const RightSideDiv = styled.div`
     display:flex;

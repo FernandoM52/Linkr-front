@@ -1,16 +1,17 @@
 import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import PostsList from "./PostsList";
 import Header from "../components/Header";
 import TrendingColumn from "../components/TrendingColumn/TrendingColum";
-import { useGetTrendings } from "../services/trendings";
+import { AuthContext } from "../providers/auth";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
-  const { trendings } = useGetTrendings();
+  const { user } = useContext(AuthContext);
 
   const token = localStorage.getItem("token");
   const userPhoto = localStorage.getItem("photo");
@@ -50,9 +51,7 @@ export default function HomePage() {
           <PostsContainer>
             <NewPost>
               <img
-                src={
-                  !userPhoto ? "https://i.imgflip.com/22zhdm.jpg?a467976" : userPhoto
-                }
+                src={user.user?.photo}
                 alt="userPhoto"
               />
 
