@@ -22,19 +22,18 @@ export default function Header({ setReload }) {
         <HeaderStyle>
             <h1 onClick={() => navigate("/timeline")}>linkr</h1>
             <SearchBar setReload={setReload} />
-            <div>
+            <UserImage>
                 {menu ? (
-                    <SlArrowDown
-                        onClick={() => setMenu(!menu)}
-                        color="white"
-                        size={'25'}
-                        cursor="pointer"
-                    />
-                ) : (
                     <SlArrowUp
                         onClick={() => setMenu(!menu)}
                         color="white"
-                        size={'25'}
+                        cursor="pointer"
+                    />
+
+                ) : (
+                    <SlArrowDown
+                        onClick={() => setMenu(!menu)}
+                        color="white"
                         cursor="pointer"
                     />
                 )}
@@ -42,7 +41,7 @@ export default function Header({ setReload }) {
                     <p data-test="logout">Logout</p>
                 </LogOut>
                 <img src={user.user?.photo} onClick={() => setMenu(!menu)} data-test="avatar" alt="User Avatar" />
-            </div>
+            </UserImage>
         </HeaderStyle>
     );
 }
@@ -52,44 +51,64 @@ export default function Header({ setReload }) {
 
 const HeaderStyle = styled.div`
     position: fixed;
-    width: -webkit-fill-available;
-    margin: 0px auto;
+    width: 100%;
+    height: 7%;
     background-color: rgb(21, 21, 21);
     top: 0px;
     left: 0px;
-    height: 72px;
-    padding-left: 20px;
-    padding-right: 20px;
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
     -webkit-box-align: center;
     align-items: center;
     z-index: 3;
-        h1 {
-            font-family: 'Passion One';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 49px;
-            color: #FFFFFF;
-            cursor:pointer;
+    h1 {
+        padding-left: 2%;
+        font-family: 'Passion One';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 49px;
+        line-height: 54px;
+        color: #FFFFFF;
+        cursor:pointer;
+        @media (max-width: 415px){
+            font-size: 45px;
+            line-height: 49px;
         }
-        div {
-            display: flex;          
-            align-items: center;
-            gap: 10px;
-            
-        }
-        img {
-            cursor:pointer;
-            width: 53px;
-            height: 53px;
-            border-radius: 26.5px
-        }
+    }
 `
+const UserImage = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 2%;
+    width: 6%;
+    @media (max-width: 950px){
+        width: 8%
+    }
+    @media (max-width: 550px){
+        width: 10%
+    }
+    svg{
+        font-size: 18px;
+    }
+    img {
+        cursor:pointer;
+        width: 54%;
+        height: 54%;
+        border-radius: 26px;
+        @media (max-width: 415px){
+            width: 44px;
+            height: 44px;
+        }
+    }
+`;
 
 const LogOut = styled.div`
-    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
     height: 47px;
     background-color: #151515;
     border-radius: 0px 0px 0px 20px;
@@ -102,6 +121,5 @@ const LogOut = styled.div`
     cursor: pointer;
     color: #FFFFFF;
     right: 0;
-    padding-left: 40px;
     display: ${props => !props.open ? 'none!important' : 'block'}
 `
