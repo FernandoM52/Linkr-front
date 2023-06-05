@@ -1,111 +1,117 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
 
 export default function RegisterForms() {
-    const [form, setForm] = React.useState({
-        email: '',
-        password: '',
-        name: '',
-        photo: ''
-    });
+  const [form, setForm] = React.useState({
+    email: "",
+    password: "",
+    name: "",
+    photo: "",
+  });
 
-    const navigate = useNavigate();
-    const [submited, setSubmited] = React.useState(false);
+  const navigate = useNavigate();
+  const [submited, setSubmited] = React.useState(false);
 
-    if (localStorage.getItem('userSessionInfoLinkr')) {
-        navigate("/timeline");
+  if (localStorage.getItem("userSessionInfoLinkr")) {
+    navigate("/timeline");
+  }
+
+  function handleForm(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  function failedRegister(error) {
+    if (error.response && error.response.status === 409) {
+      alert("Email já existente");
+    } else {
+      alert("Ocorreu um erro no seu registro. Tente novamente!");
+    }
+    setSubmited(false);
+    window.location.reload(); // Recarrega a página
+  }
+
+  function doRegister(e) {
+    e.preventDefault();
+
+    // Verificar se os campos estão preenchidos
+    if (
+      !form.email.trim() ||
+      !form.password.trim() ||
+      !form.name.trim() ||
+      !form.photo.trim()
+    ) {
+      alert("Por favor, preencha todos os campos.");
+      return;
     }
 
-    function handleForm(e) {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    }
+    setSubmited(true);
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/sign-up`, {
+        email: form.email,
+        password: form.password,
+        name: form.name,
+        photo: form.photo,
+      })
+      .then(() => navigate("/"))
+      .catch((error) => failedRegister(error));
+  }
 
-    function failedRegister(error) {
-        if (error.response && error.response.status === 409) {
-            alert('Email já existente');
-        } else {
-            alert('Ocorreu um erro no seu registro. Tente novamente!');
-        }
-        setSubmited(false);
-        window.location.reload(); // Recarrega a página
-    }
-
-    function doRegister(e) {
-        setSubmited(true);
-        e.preventDefault();
-        axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, {
-            email: form.email,
-            password: form.password,
-            name: form.name,
-            photo: form.photo
-        })
-            .then(() => navigate("/"))
-            .catch((error) => failedRegister(error));
-    }
-
-    return (
-        <RightSideDiv>
-            <RegisterFormDiv>
-                <form onSubmit={doRegister}>
-                    <input
-                        data-test="email"
-                        disabled={false}
-                        name="email"
-                        type="email"
-                        required
-                        placeholder="E-mail"
-                        onChange={handleForm}
-                        value={form.email}
-                    />
-                    <input
-                        data-test="password"
-                        disabled={false}
-                        name="password"
-                        type="password"
-                        required
-                        placeholder="Senha"
-                        onChange={handleForm}
-                        value={form.password}
-                    />
-                    <input
-                        data-test="name"
-                        disabled={false}
-                        name="name"
-                        type="text"
-                        required
-                        placeholder="username"
-                        onChange={handleForm}
-                        value={form.name}
-                    />
-                    <input
-                        data-test="picture-url"
-                        disabled={false}
-                        name="photo"
-                        type="url"
-                        required
-                        placeholder="picture url"
-                        onChange={handleForm}
-                        value={form.photo}
-                    />
-                    <button
-                        data-test="sign-up-btn"
-                        disabled={submited}
-                        type="submit"
-                    >{submited ? <Loading /> : "Sign Up"}</button>
-                </form>
-                <StyledLink to="/">
-                    <p data-test="login-link">
-                        Switch back to log in
-                    </p>
-                </StyledLink>
-            </RegisterFormDiv>
-        </RightSideDiv>
-    );
+  return (
+    <RightSideDiv>
+      <RegisterFormDiv>
+        <form onSubmit={doRegister}>
+          <input
+            data-test="email"
+            disabled={false}
+            name="email"
+            type="email"
+            placeholder="E-mail"
+            onChange={handleForm}
+            value={form.email}
+          />
+          <input
+            data-test="password"
+            disabled={false}
+            name="password"
+            type="password"
+            placeholder="Senha"
+            onChange={handleForm}
+            value={form.password}
+          />
+          <input
+            data-test="name"
+            disabled={false}
+            name="name"
+            type="text"
+            placeholder="username"
+            onChange={handleForm}
+            value={form.name}
+          />
+          <input
+            data-test="picture-url"
+            disabled={false}
+            name="photo"
+            type="url"
+            placeholder="picture url"
+            onChange={handleForm}
+            value={form.photo}
+          />
+          <button data-test="sign-up-btn" disabled={submited} type="submit">
+            {submited ? <Loading /> : "Sign Up"}
+          </button>
+        </form>
+        <StyledLink to="/">
+          <p data-test="login-link">Switch back to log in</p>
+        </StyledLink>
+      </RegisterFormDiv>
+    </RightSideDiv>
+  );
 }
+
 
 const RightSideDiv = styled.div`
     display:flex;
