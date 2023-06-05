@@ -21,14 +21,14 @@ export const LeftSide = styled.div`
 `;
 
 export const UserImage = styled.div`
-  background-color: white;
-  width: 50px;
-  height: 50px;
-  border-radius: 26px;
-
-  @media (max-width: 415px){
-    width: 40px;
-    height: 40px;
+  img{
+    width: 50px;
+    height: 50px;
+    border-radius: 26px;
+    @media (max-width: 415px){
+      width: 40px;
+      height: 40px;
+    }
   }
 `;
 
@@ -59,7 +59,6 @@ export const RightSide = styled.div`
   gap: 7px;
   font-family: 'Lato', sans-serif;
   font-weight: 400;
-  cursor: pointer;
   @media (max-width: 415px){
     padding-left: 3%;
   }
@@ -79,21 +78,23 @@ export const PostDescription = styled.p`
   @media (max-width: 415px){
     width: 100%;
   }
-`;
-
-export const StyledSpan = styled.span`
-  font-weight: 700;
-  font-size: 17px;
-  line-height: 20px;
-  color: #FFFFFF;
+  a{
+    text-decoration: none;
+  }
+  strong{
+    color: #FFFFFF;
+    text-decoration: none;
+  }
 `;
 
 export const UrlInfosContainer = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   border: 1px solid #4D4D4D;
   border-radius: 11px;
+  cursor: pointer;
 `;
 
 export const UrlInfos = styled.div`
@@ -138,8 +139,8 @@ export const UrlPost = styled.p`
 `;
 
 export const UrlImage = styled.div`
-  background-color: white;
-  width: 55%;
+  display: flex;
+  max-width: 20%;
   border-radius: 0px 12px 13px 0px;
   @media (max-width: 415px){
     width: 100%;

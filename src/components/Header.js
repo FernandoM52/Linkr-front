@@ -116,10 +116,20 @@ const LogOut = styled.div`
     font-style: normal;
     font-weight: 700;
     font-size: 17px;
+    text-align: center;
     position: absolute;
     bottom: -45px;
     cursor: pointer;
     color: #FFFFFF;
     right: 0;
-    display: ${props => !props.open ? 'none!important' : 'block'}
+    display: ${props => !props.open ? 'none!important' : 'block'};
+    @media (max-width: 600px){
+        width: 15%;
+    }
+    p{
+        padding-top: 6%;
+        @media (max-width: 600px){
+            padding-top: 12%;
+        }
+    }
 `

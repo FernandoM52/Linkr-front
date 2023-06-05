@@ -8,6 +8,12 @@ import LikeButton from "./LikeButton";
 export default function PostItem(props, post) {
     const { link, content, title, description, image } = props;
 
+    function handleOpenLink() {
+        if (link) {
+            window.open(link, "_blank");
+        }
+    }
+
     return (
 
         <Posts>
@@ -27,7 +33,7 @@ export default function PostItem(props, post) {
                     <InfoContainer>
                         {title ? <Title>{title}</Title> : ""}
                         <Description>{description}</Description>
-                        <LinkStyle onClick={window.open(link)}>{link}</LinkStyle>
+                        <LinkStyle onClick={handleOpenLink}>{link}</LinkStyle>
                     </InfoContainer>
                     <ImageStyle>
                         {

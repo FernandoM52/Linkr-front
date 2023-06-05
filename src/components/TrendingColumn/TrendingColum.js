@@ -1,25 +1,28 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledTitle, StyledWrapper, TrendingItem, TrendingList, TrendingsContainer } from "./style";
 
-export default function TrendingColumn() {
-  const [trendings, setTrendings] = useState(["# javascript", "# react", "# react-native", "# material", "# web-dev", "# mobile", "# css", "# html", "# node", "# sql",]);
+export default function TrendingColumn({ trendings }) {
+  const hashtags = trendings?.map((h) => (h.hashtag));
   const navigate = useNavigate();
 
   return (
-    <TrendingsContainer>
+    <TrendingsContainer data-test="trending">
       <StyledTitle>trendings</StyledTitle>
       <StyledWrapper />
-      <TrendingList>
-        {trendings.map((hashtag, i) => (
-          <TrendingItem
-            key={i}
-            onClick={() => navigate(`/hashtag/${hashtag.replace("#", "")}`)}
-          >
-            {hashtag}
-          </TrendingItem>
-        ))}
-      </TrendingList>
+      {!hashtags && "Carregando..."}
+      {hashtags && hashtags.length > 0 && (
+        <TrendingList>
+          {hashtags?.map((hashtag, i) => (
+            <TrendingItem
+              data-test="hashtag"
+              key={i}
+              onClick={() => navigate(`/hashtag/${hashtag.replace("#", "")}`)}
+            >
+              {`# ${hashtag}`}
+            </TrendingItem>
+          ))}
+        </TrendingList>
+      )}
     </TrendingsContainer>
   );
 }
