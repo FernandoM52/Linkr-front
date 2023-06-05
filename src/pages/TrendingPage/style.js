@@ -9,7 +9,7 @@ export const Screen = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100%;
+  min-height: 1000px;
   padding-top: 7%;
   @media (max-width:  600px ){
     align-items: flex-start;

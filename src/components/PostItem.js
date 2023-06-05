@@ -7,6 +7,11 @@ import { Link } from "react-router-dom";
 export default function PostItem(props) {
     const { link, content, title, description, image } = props;
 
+    function handleOpenLink() {
+        if (link) {
+            window.open(link, "_blank");
+        }
+    }
 
     return (
 
@@ -30,7 +35,7 @@ export default function PostItem(props) {
                     <InfoContainer>
                         {title ? <Title>{title}</Title> : ""}
                         <Description>{description}</Description>
-                        <LinkStyle onClick={window.open(link)}>{link}</LinkStyle>
+                        <LinkStyle onClick={handleOpenLink}>{link}</LinkStyle>
                     </InfoContainer>
                     <ImageStyle>
                         {
