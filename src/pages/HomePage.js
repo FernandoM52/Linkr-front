@@ -14,33 +14,29 @@ export default function HomePage() {
   const { user } = useContext(AuthContext);
   const { trendings } = useGetTrendings();
 
-  const token = localStorage.getItem("token");
-  const userPhoto = localStorage.getItem("photo");
-
   async function publishPost(event) {
     event.preventDefault();
     setIsLoading(true);
 
-    const url = "http://localhost:5000/home";
     const body = { link, content };
     const config = {
       headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer c0fab7ec-61c5-42b4-adef-3861f303e981`,
+        Authorization: `Bearer ${user.token}`,
       },
     };
 
-    try {
-      await axios.post(url, body, config);
-      setLink("");
-      setContent("");
-      setIsLoading(false);
-    } catch (err) {
-      alert("Houve um erro ao publicar seu link");
-      setLink("");
-      setContent("");
-      setIsLoading(false);
-    }
+    axios.post(`${process.env.REACT_APP_API_URL}/home`, body, config)
+      .then((res) => {
+        setLink("");
+        setContent("");
+        setIsLoading(false);
+      })
+      .catch(err => {
+        alert("Houve um erro ao publicar seu link");
+        setLink("");
+        setContent("");
+        setIsLoading(false);
+      });
   }
 
   return (
