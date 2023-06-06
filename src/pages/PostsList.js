@@ -34,6 +34,8 @@ export default function PostsList() {
                         image={p.image}
                         description={p.description}
                         title={p.title}
+                        id={p.id}
+                        user_id={p.user_id}
                     />
                 )
             }

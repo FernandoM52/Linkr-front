@@ -3,9 +3,32 @@ import { HiOutlineHeart, HiOutlineExternalLink, HiTrash } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import ReactStringReplace from "react-string-replace";
+import { Modal } from "../components/Modal";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 
 export default function PostItem(props, post) {
-    const { link, content, title, description, image } = props;
+    const { link, content, title, description, image, id, user_id } = props;
+    const [showModal, setShowModal] = useState(false);
+
+
+    function handleOpenModal() {
+        setShowModal(true);
+    }
+    
+    function handleCloseModal() {
+        setShowModal(false);
+    }
+
+    function deletePost() {
+        axios.delete(`${process.env.REACT_APP_API_URL}/home/${id}`)
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err.response.data));
+        
+        setShowModal(false);
+    }
+  
 
     function renderPostDescription() {
         return ReactStringReplace(content, /#(\w+)/g, (match, i) => (
@@ -17,13 +40,21 @@ export default function PostItem(props, post) {
 
     return (
 
-        <Posts>
+        <Posts id={id}>
             <LeftSide>
                 <img alt="user" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQXN_tLW6Dr_7vlJi7PS8S5EUEbt47E-Jhvg&usqp=CAU" />
                 <LikeButton postId={post.id} />
             </LeftSide>
             <MainContent>
-                <HiTrash size={22} />
+                <HiTrash size={22}  onClick={handleOpenModal} />
+                 <Modal showModal={showModal}>
+                       <p> Are you sure you want
+                        to delete this post?</p>
+                    <WrapperButton>
+                        <CancelButton onClick={handleCloseModal}>No, go back</CancelButton>
+                        <OKButton onClick={deletePost} >Yes, delete</OKButton>
+                    </WrapperButton>    
+                </Modal>
                 <h3>Let</h3>
                 <p>
                     {renderPostDescription()}
@@ -35,8 +66,8 @@ export default function PostItem(props, post) {
                         <LinkStyle onClick={() => window.open(link)}>{link}</LinkStyle>
                     </InfoContainer>
                     <ImageStyle>
-                        {
-                            image !== "" ? <img src={image} alt="link" /> : <HiOutlineExternalLink />}
+                        
+                        { image !== "" ? <img src={image} alt="link" /> : <HiOutlineExternalLink />}
 
                     </ImageStyle>
                 </LinkContainer>
@@ -146,8 +177,36 @@ position: relative;
         color: white;
         cursor: pointer;
     }
-
    
+`
+const WrapperButton = styled.div`
+display: flex;
+justify-content: center;
+font-family: 'Lato';
+gap: 18px;
+    button {
+
+        width: 20%;
+        height: 150%;
+        border: none;
+        border-radius: 5px;
+        font-weight: 700;
+        font-size: 19px;
+        line-height: 22px;
+
+    }
+
+`
+
+const CancelButton = styled.button`
+background-color: white;
+color: #1877F2;
+
+`
+const OKButton = styled.button`
+background-color: #1877F2;
+color: white;
+
 
 `
 
