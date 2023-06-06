@@ -1,15 +1,13 @@
 import styled from "styled-components";
-import { HiOutlineHeart, HiOutlineExternalLink, HiTrash } from "react-icons/hi";
-import ReactHashtag from "react-hashtag";
-import axios from "axios";
 import { useState } from "react";
+import { HiOutlineHeart, HiOutlineExternalLink, HiTrash } from "react-icons/hi";
+import LikeButton from "./LikeButton";
+import axios from "axios";
 import Modal from "react-modal";
 
-export default function PostItem(props) {
+export default function PostItem(props, post) {
     const { link, content, title, description, image, id, user_id, modal, setModalOpen, yesDelete } = props;
     const [postInfo, setPostInfo] = useState(undefined);
-    
-    
 
     function openModal(id) {
         setModalOpen(true);
@@ -17,9 +15,10 @@ export default function PostItem(props) {
 
     }
 
-    function openLink(link) {
+    function handleOpenLink(link) {
         window.open(link, '_blank').focus();
     }
+
     function deletePost(id) {
         if (yesDelete) {
             const promise = axios.delete(`http://localhost:5000/home/${id}`, {
@@ -36,37 +35,32 @@ export default function PostItem(props) {
 
     return (
 
-        
         <Posts id={id}>
             <LeftSide>
                 <img alt="user" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQXN_tLW6Dr_7vlJi7PS8S5EUEbt47E-Jhvg&usqp=CAU" />
-                <div>
-                    <HiOutlineHeart color="white" size={25}></HiOutlineHeart>
-                    <p>13 likes</p>
-                </div>    
+                <LikeButton postId={post.id} />
             </LeftSide>
             <MainContent>
-                {/* <HiTrash size={22} onClick={() => openModal(id)}/>   */}
-                    <h3>Let</h3>
-                    <p>
-                        <ReactHashtag>
-                            {content}
-                        </ReactHashtag>
-                    </p>
-                        <LinkContainer onClick={() => openLink(link)} >
-                            <InfoContainer>
-                                {title ? <Title>{title}</Title> : ""}
-                                <Description>{description}</Description>
-                                <LinkStyle onClick={window.open(link)}>{link}</LinkStyle>
-                            </InfoContainer>
-                            <ImageStyle>
-                                
-                                { image !== ""   ? <img src={image} alt="link" /> : <HiOutlineExternalLink  />}
-                                
-                            </ImageStyle>
-                        </LinkContainer>
-                </MainContent>
+                <HiTrash size={22} />
+                <h3>Let</h3>
+                <p>
+                    {content}
+                </p>
+                <LinkContainer onClick={() => window.open(link)}>
+                    <InfoContainer>
+                        {title ? <Title>{title}</Title> : ""}
+                        <Description>{description}</Description>
+                        <LinkStyle onClick={handleOpenLink}>{link}</LinkStyle>
+                    </InfoContainer>
+                    <ImageStyle>
+                        {
+                            image !== "" ? <img src={image} alt="link" /> : <HiOutlineExternalLink/>
+                        }
+                    </ImageStyle>
+                </LinkContainer>
+            </MainContent>
         </Posts >
+
     )
 
 }
@@ -78,18 +72,20 @@ const Posts = styled.div`
 }
 background: #171717;
 border-radius: 16px;
-width: 611px;
+width: 100%;
 height: fit-content;
 display: flex;
 padding: 20px;
 gap:18px;
-  
+@media (max-width:  600px ){
+    border-radius: 0;
+}
+`;
 
-`
 const LeftSide = styled.div`
 display: flex;
 flex-direction: column;
-width: 65px;
+width: 14%;
 justify-content: flex-start;
 align-items: center;
 gap: 19px;
@@ -119,7 +115,7 @@ gap: 19px;
 const MainContent = styled.div`
 
 display: flex;
-width: 100%;
+width: 83%;
 height: fit-content;
 flex-direction: column;
 position: relative;
@@ -170,7 +166,7 @@ position: relative;
 
 
 const LinkContainer = styled.div`
-width: 503px;
+width: 100%;
 height: fit-content;
 border: 1px solid #4D4D4D;
 border-radius: 11px;
@@ -178,12 +174,9 @@ display: flex;
 margin-top: 8px;
 justify-content: space-between;
 cursor: pointer;
-
-
-
+overflow: hidden;
 `
 const InfoContainer = styled.div`
-width: 345px;
 height: fit-content;
 display: flex;
 flex-direction: column;
@@ -239,12 +232,13 @@ const ImageStyle = styled.div`
         justify-content: center;
 
         img {
-            width: 153.44px;
+            width: 100%;
             height: 100%;
             border-radius: 0px 12px 13px 0px;
             object-fit: cover;
         }
         svg {
+            width: 100%;
             color:#9B9595;
             font-size: 100px;
         }

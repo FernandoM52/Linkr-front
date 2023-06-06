@@ -1,28 +1,20 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import PostsList from "./pages/PostsList";
+import Header from "../components/Header";
+import TrendingColumn from "../components/TrendingColumn/TrendingColum";
+import { AuthContext } from "../providers/auth";
+import { useGetTrendings } from "../services/trendings";
 
 export default function HomePage() {
-  const [trendings, setTrendings] = useState([
-    "# javascript",
-    "# react",
-    "# react-native",
-    "# material",
-    "# web-dev",
-    "# mobile",
-    "# css",
-    "# html",
-    "# node",
-    "# sql",
-  ]);
   const [isLoading, setIsLoading] = useState(false);
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [yesDelete, setYesDelete] = useState(false);
-  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const { trendings } = useGetTrendings();
 
   const token = localStorage.getItem("token");
   const userPhoto = localStorage.getItem("photo");
@@ -54,8 +46,8 @@ export default function HomePage() {
   }
 
   return (
-    //Aqui vai ter um Header
-
+  <>
+  <Header />
     <Container>
       <PostsContainer>
         <ModalContainer modal={modalOpen}>
@@ -104,21 +96,10 @@ export default function HomePage() {
           yesDelete={yesDelete}
         ></PostsList>
       </PostsContainer>
-      <TrendingsContainer>
-        <StyledTitle>trending</StyledTitle>
-        <StyledWrapper />
-        <ul>
-          {trendings.map((hashtag, i) => (
-            <TrendingItem
-              key={i}
-              onClick={() => navigate(`/hashtag/${hashtag.replace("#", "")}`)}
-            >
-              {hashtag}
-            </TrendingItem>
-          ))}
-        </ul>
-      </TrendingsContainer>
+      
+      <TrendingColumn trendings={trendings} />
     </Container>
+    </>
   );
 }
 
