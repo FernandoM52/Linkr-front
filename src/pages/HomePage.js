@@ -25,7 +25,7 @@ export default function HomePage() {
       },
     };
 
-    axios.post("http://localhost:5000/home", body, config)
+    axios.post(`${process.env.REACT_APP_API_URL}/home`, body, config)
       .then((res) => {
         setLink("");
         setContent("");
