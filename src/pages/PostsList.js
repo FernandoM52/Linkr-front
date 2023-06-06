@@ -4,7 +4,8 @@ import axios from "axios";
 import PostItem from "../components/PostItem";
 
 
-export default function PostsList() {
+export default function PostsList(props) {
+    const { modal, setModalOpen, yesDelete } = props;
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -12,7 +13,7 @@ export default function PostsList() {
             then((res) => {
                     setPosts(res.data);
                 }).
-            catch(err => alert("An error ocurred while tryng to fetch the posts, please refresh the page"));
+            catch(err => alert("An error ocurred while trying to fetch the posts, please refresh the page"));
         
     }, []);
 
@@ -26,6 +27,8 @@ export default function PostsList() {
 
     return (
         <Container>
+            
+    
         {
             posts.map((p) => 
                 <PostItem
@@ -35,6 +38,11 @@ export default function PostsList() {
                     image={p.image}
                     description={p.description}
                     title={p.title}
+                    id={p.id}
+                    user={p.user_id}
+                    modal={modal}
+                    setModalOpen={setModalOpen}
+                    yesDelete={yesDelete}
                 />
             )
         }

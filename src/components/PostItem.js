@@ -1,17 +1,44 @@
 import styled from "styled-components";
 import { HiOutlineHeart, HiOutlineExternalLink, HiTrash } from "react-icons/hi";
 import ReactHashtag from "react-hashtag";
-import { Link } from "react-router-dom";
-
+import axios from "axios";
+import { useState } from "react";
+import Modal from "react-modal";
 
 export default function PostItem(props) {
-    const { link, content, title, description, image } = props;
+    const { link, content, title, description, image, id, user_id, modal, setModalOpen, yesDelete } = props;
+    const [postInfo, setPostInfo] = useState(undefined);
+    
     
 
-    return (
+    function openModal(id) {
+        setModalOpen(true);
+        window.scrollTo(0, 0);
+
+    }
+
+    function openLink(link) {
+        window.open(link, '_blank').focus();
+    }
+    function deletePost(id) {
+        if (yesDelete) {
+            const promise = axios.delete(`http://localhost:5000/home/${id}`, {
+                headers: {
+                    Authorization: `Bearer cbce4fd6-899a-467f-a197-8399da370fb2`
+                }
+            }).
+                then((res) => console.log(res.data)).
+                catch(err => console.log(err.response.data));
+        }
+        setModalOpen(false);
         
-        <Posts>
-                <LeftSide>
+    }
+
+    return (
+
+        
+        <Posts id={id}>
+            <LeftSide>
                 <img alt="user" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQXN_tLW6Dr_7vlJi7PS8S5EUEbt47E-Jhvg&usqp=CAU" />
                 <div>
                     <HiOutlineHeart color="white" size={25}></HiOutlineHeart>
@@ -19,28 +46,27 @@ export default function PostItem(props) {
                 </div>    
             </LeftSide>
             <MainContent>
-                    <HiTrash size={22}/>
+                {/* <HiTrash size={22} onClick={() => openModal(id)}/>   */}
                     <h3>Let</h3>
                     <p>
                         <ReactHashtag>
                             {content}
                         </ReactHashtag>
                     </p>
-                        <LinkContainer onClick={() => window.open(link)}>
+                        <LinkContainer onClick={() => openLink(link)} >
                             <InfoContainer>
                                 {title ? <Title>{title}</Title> : ""}
                                 <Description>{description}</Description>
                                 <LinkStyle onClick={window.open(link)}>{link}</LinkStyle>
                             </InfoContainer>
                             <ImageStyle>
-                                {
-                                    image !== ""   ? <img src={image} alt="link" /> : <HiOutlineExternalLink  />}
+                                
+                                { image !== ""   ? <img src={image} alt="link" /> : <HiOutlineExternalLink  />}
                                 
                             </ImageStyle>
                         </LinkContainer>
                 </MainContent>
         </Posts >
-      
     )
 
 }
@@ -140,6 +166,8 @@ position: relative;
    
 
 `
+
+
 
 const LinkContainer = styled.div`
 width: 503px;

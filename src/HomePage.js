@@ -20,6 +20,8 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [yesDelete, setYesDelete] = useState(false);
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -56,6 +58,15 @@ export default function HomePage() {
 
     <Container>
       <PostsContainer>
+        <ModalContainer modal={modalOpen}>
+          <form>
+            <p>Are you sure you want to delete this post?</p>
+            <div>
+              <button onClick={()=> setModalOpen(false)} type="submit">No, go back</button>
+              <button onClick={() => setYesDelete(true)} type="submit">Yes, delete it</button>
+            </div>
+          </form>
+        </ModalContainer>
         <NewPost>
           <img
             src={
@@ -88,7 +99,10 @@ export default function HomePage() {
             </PublishButton>
           </NewPostInfos>
         </NewPost>
-        <PostsList></PostsList>
+        <PostsList modal={modalOpen}
+          setModalOpen={setModalOpen}
+          yesDelete={yesDelete}
+        ></PostsList>
       </PostsContainer>
       <TrendingsContainer>
         <StyledTitle>trending</StyledTitle>
@@ -119,8 +133,63 @@ const Container = styled.div`
   justify-content: center;
   gap: 25px;
   height: 100%;
+  position: relative;
 `;
 
+const ModalContainer = styled.div`
+background-color: black;
+width: 597px;
+height: 262px;
+border-radius: 50px;
+z-index: 1;
+position: absolute;
+top: 6%;
+left: 33%;
+display: flex;
+align-items: center;
+padding: 25px;
+visibility: ${({ modal }) => modal ? "visible" : "hidden" };
+
+  form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+  p {
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 41px;
+    color: #FFFFFF;
+    text-align: center;
+  }
+  button:nth-of-type(1){
+    width: 134px;
+    height: 37px;
+    background-color:white;
+    border-radius: 5px;
+    border: none;
+    font-size:18px;
+    color: #1877F2;
+    font-weight: 700;
+    margin-right: 5px;
+
+  }
+  button:nth-of-type(2){
+    width: 134px;
+    height: 37px;
+    background-color:#1877F2;
+    border-radius: 5px;
+    border: none;
+    font-size:18px;
+    color: #FFFFFF;
+    font-weight: 700;
+
+  }
+  }
+
+`
 const PostsContainer = styled.div`
 display: flex;
 flex-direction: column;
