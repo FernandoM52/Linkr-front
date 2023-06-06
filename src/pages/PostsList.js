@@ -8,39 +8,38 @@ export default function PostsList() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        const response = axios.get(`http://localhost:5000/home`).
-            then((res) => {
-                    setPosts(res.data);
-                }).
-            catch(err => alert("An error ocurred while tryng to fetch the posts, please refresh the page"));
-        
+        axios.get(`${process.env.REACT_APP_API_URL}/home`)
+            .then((res) => {
+                setPosts(res.data);
+            })
+            .catch(err => alert("An error ocurred while tryng to fetch the posts, please refresh the page"));
     }, []);
 
     if (!posts) {
         return (<Condicional>There are no posts yet</Condicional>)
     }
-    
+
     if (posts.length === 0) {
         return (<Condicional>Loading...</Condicional>)
     }
 
     return (
         <Container>
-        {
-            posts.map((p) => 
-                <PostItem
-                    key={p.id}
-                    link={p.link}
-                    content={p.content}
-                    image={p.image}
-                    description={p.description}
-                    title={p.title}
-                />
-            )
-        }
-        
-      </Container>
-    
+            {
+                posts.map((p) =>
+                    <PostItem
+                        key={p.id}
+                        link={p.link}
+                        content={p.content}
+                        image={p.image}
+                        description={p.description}
+                        title={p.title}
+                    />
+                )
+            }
+
+        </Container>
+
     )
 
 
