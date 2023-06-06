@@ -2,15 +2,17 @@ import styled from "styled-components";
 import { HiOutlineHeart, HiOutlineExternalLink, HiTrash } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
-
+import ReactStringReplace from "react-string-replace";
 
 export default function PostItem(props, post) {
     const { link, content, title, description, image } = props;
 
-    function handleOpenLink() {
-        if (link) {
-            window.open(link, "_blank");
-        }
+    function renderPostDescription() {
+        return ReactStringReplace(content, /#(\w+)/g, (match, i) => (
+            <Link to={`/hashtag/${match}`} key={i}>
+                <strong>#{match}</strong>
+            </Link>
+        ));
     }
 
     return (
@@ -24,13 +26,13 @@ export default function PostItem(props, post) {
                 <HiTrash size={22} />
                 <h3>Let</h3>
                 <p>
-                    {content}
+                    {renderPostDescription()}
                 </p>
                 <LinkContainer onClick={() => window.open(link)}>
                     <InfoContainer>
                         {title ? <Title>{title}</Title> : ""}
                         <Description>{description}</Description>
-                        <LinkStyle onClick={handleOpenLink}>{link}</LinkStyle>
+                        <LinkStyle onClick={() => window.open(link)}>{link}</LinkStyle>
                     </InfoContainer>
                     <ImageStyle>
                         {
@@ -109,7 +111,6 @@ position: relative;
         line-height: 23px;
     }
     > p {
-            
         font-size: 17px;
         font-weight: 400;
         line-height: 20px;
@@ -118,7 +119,14 @@ position: relative;
         color:#B7B7B7;
         margin-top: 10px;
         word-wrap: break-word;
-
+        a{
+            text-decoration: none;
+            font-size: 17px;
+        }
+        strong{
+            color: #FFFFFF;
+            text-decoration: none;
+        }
     }
     
     
