@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { HiOutlineExternalLink, HiTrash } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LikeButton from "./LikeButton";
+import ReactStringReplace from "react-string-replace";
+import { Modal } from "../components/Modal";
+import { useState } from "react";
+import axios from "axios";
 
 export default function PostItem(props, post) {
   const {
@@ -10,34 +14,62 @@ export default function PostItem(props, post) {
     title,
     description,
     image,
+    id,
+    user_id,
     userPhoto,
-    userId,
     userName,
   } = props;
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
 
-  function handleOpenLink() {
-    if (link) {
-      window.open(link, "_blank");
-    }
+  function handleOpenModal() {
+    setShowModal(true);
+  }
+
+  function handleCloseModal() {
+    setShowModal(false);
+  }
+
+  function deletePost() {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/home/${id}`)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err.response.data));
+
+    setShowModal(false);
+  }
+
+  function renderPostDescription() {
+    return ReactStringReplace(content, /#(\w+)/g, (match, i) => (
+      <Link to={`/hashtag/${match}`} key={i}>
+        <strong>#{match}</strong>
+      </Link>
+    ));
   }
 
   return (
-    <Posts>
+    <Posts id={id}>
       <LeftSide>
         <img alt="user" src={userPhoto} />
         <LikeButton postId={post.id} />
       </LeftSide>
       <MainContent>
-        <HiTrash size={22} />
-        <h3 onClick={() => navigate(`/user/${userId}`)}>{userName}</h3>
-        <p>{content}</p>
+        <HiTrash size={22} onClick={handleOpenModal} />
+        <Modal showModal={showModal}>
+          <p> Are you sure you want to delete this post?</p>
+          <WrapperButton>
+            <CancelButton onClick={handleCloseModal}>No, go back</CancelButton>
+            <OKButton onClick={deletePost}>Yes, delete</OKButton>
+          </WrapperButton>
+        </Modal>
+        <h3 onClick={() => navigate(`/user/${user_id}`)}>{userName}</h3>
+        <p>{renderPostDescription()}</p>
         <LinkContainer onClick={() => window.open(link)}>
           <InfoContainer>
             {title ? <Title>{title}</Title> : ""}
             <Description>{description}</Description>
-            <LinkStyle onClick={handleOpenLink}>{link}</LinkStyle>
+            <LinkStyle onClick={() => window.open(link)}>{link}</LinkStyle>
           </InfoContainer>
           <ImageStyle>
             {image !== "" ? (
@@ -115,6 +147,7 @@ const MainContent = styled.div`
     font-size: 19px;
     line-height: 23px;
   }
+
   > p {
     font-size: 17px;
     font-weight: 400;
@@ -124,6 +157,14 @@ const MainContent = styled.div`
     color: #b7b7b7;
     margin-top: 10px;
     word-wrap: break-word;
+    a {
+      text-decoration: none;
+      font-size: 17px;
+    }
+    strong {
+      color: #ffffff;
+      text-decoration: none;
+    }
   }
 
   a {
@@ -141,6 +182,30 @@ const MainContent = styled.div`
     color: white;
     cursor: pointer;
   }
+`;
+const WrapperButton = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: "Lato";
+  gap: 18px;
+  button {
+    width: 20%;
+    height: 150%;
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 22px;
+  }
+`;
+
+const CancelButton = styled.button`
+  background-color: white;
+  color: #1877f2;
+`;
+const OKButton = styled.button`
+  background-color: #1877f2;
+  color: white;
 `;
 
 const LinkContainer = styled.div`

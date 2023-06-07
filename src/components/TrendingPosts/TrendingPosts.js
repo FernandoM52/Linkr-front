@@ -4,13 +4,9 @@ import { Link } from "react-router-dom";
 import ReactStringReplace from "react-string-replace";
 
 export default function TrendingPosts(props) {
-  const { content, description, image, likes_count, link, title, name, photo } = props.posts;
-
-  function handleOpenUrl() {
-    if (link) {
-      window.open(link, "_blank");
-    }
-  }
+  const {
+    content, description, image, likes_count, link, title, name, photo
+  } = props.posts;
 
   function renderPostDescription() {
     return ReactStringReplace(content, /#(\w+)/g, (match, i) => (
@@ -36,14 +32,14 @@ export default function TrendingPosts(props) {
         <PostDescription>
           {renderPostDescription()}
         </PostDescription>
-        <UrlInfosContainer onClick={handleOpenUrl}>
+        <UrlInfosContainer onClick={() => window.open(link)}>
           <UrlInfos>
             <UrlTitle>{title ? title : ""}</UrlTitle>
             <UrlDescription>{description ? description : ""}</UrlDescription>
             <UrlPost>{link ? link : ""}</UrlPost>
           </UrlInfos>
           {image ? (
-            <UrlImage>
+            <UrlImage >
               <img src={image} />
             </UrlImage>
           )

@@ -36,7 +36,8 @@ export default function PostsList() {
           image={p.image}
           description={p.description}
           title={p.title}
-          userId={p.user_id}
+          id={p.id}
+          user_id={p.user_id}
           userPhoto={p.photo}
           userName={p.name}
         />

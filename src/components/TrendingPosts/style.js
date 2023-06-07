@@ -139,10 +139,14 @@ export const UrlPost = styled.p`
 `;
 
 export const UrlImage = styled.div`
-  display: flex;
-  max-width: 20%;
+  max-width: 25%;
+  height: 100%;
   border-radius: 0px 12px 13px 0px;
   @media (max-width: 415px){
     width: 100%;
+  }
+  img{
+    width: 100%;
+    height: 100%;
   }
 `;
