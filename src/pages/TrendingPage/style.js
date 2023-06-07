@@ -17,22 +17,6 @@ export const Screen = styled.div`
   }
 `;
 
-export const PseudoHeader = styled.header`
-  background-color: #151515;
-  min-width: 100%;
-  height: 7%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  @media (max-width:  600px ){
-    height: 9%;
-  }
-  @media (max-width:  415px ){
-    height: 10%;
-  }
-`;
-
 export const TrendingTitle = styled.div`
   width: 65%;
   h2{
