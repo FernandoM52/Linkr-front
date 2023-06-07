@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { HiOutlineHeart, HiOutlineExternalLink, HiTrash } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { HiOutlineExternalLink, HiTrash } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 import LikeButton from "./LikeButton";
 
 export default function PostItem(props, post) {
@@ -31,7 +31,7 @@ export default function PostItem(props, post) {
       </LeftSide>
       <MainContent>
         <HiTrash size={22} />
-        <h3 onClick={() => navigate(`/users/${userId}`)}>{userName}</h3>
+        <h3 onClick={() => navigate(`/user/${userId}`)}>{userName}</h3>
         <p>{content}</p>
         <LinkContainer onClick={() => window.open(link)}>
           <InfoContainer>

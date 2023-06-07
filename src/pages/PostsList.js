@@ -8,7 +8,7 @@ export default function PostsList() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/home`)
+      .get(`${process.env.REACT_APP_API_URL}/home`)
       .then((res) => {
         setPosts(res.data);
       })
@@ -26,7 +26,6 @@ export default function PostsList() {
   if (posts.length === 0) {
     return <Condicional>Loading...</Condicional>;
   }
-  console.log(posts);
   return (
     <Container>
       {posts.map((p) => (

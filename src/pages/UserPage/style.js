@@ -1,35 +1,6 @@
-import { useContext } from "react";
 import styled from "styled-components";
-import PostsList from "./PostsList";
-import Header from "../components/Header";
-import TrendingColumn from "../components/TrendingColumn/TrendingColum";
-import { AuthContext } from "../providers/auth";
-import { useGetTrendings } from "../services/trendings";
 
-export default function UserPage() {
-  const { user } = useContext(AuthContext);
-  const { trendings } = useGetTrendings();
-
-  return (
-    <>
-      <Header />
-      <Container>
-        <PageTitle>
-          <h2>{user.user.name}'s posts</h2>
-        </PageTitle>
-        <DisplayBox>
-          <PostsContainer>
-            <PostsList></PostsList>
-          </PostsContainer>
-
-          <TrendingColumn trendings={trendings} />
-        </DisplayBox>
-      </Container>
-    </>
-  );
-}
-
-const Container = styled.div`
+export const Container = styled.div`
   * {
     box-sizing: border-box;
     font-family: "Lato";
@@ -46,7 +17,7 @@ const Container = styled.div`
   }
 `;
 
-const PageTitle = styled.div`
+export const PageTitle = styled.div`
   padding-top: 7%;
   width: 65%;
   @media (max-width: 600px) {
@@ -81,7 +52,7 @@ const PageTitle = styled.div`
   }
 `;
 
-const DisplayBox = styled.div`
+export const DisplayBox = styled.div`
   display: flex;
   justify-content: space-between;
   width: 65%;
@@ -95,7 +66,7 @@ const DisplayBox = styled.div`
   }
 `;
 
-const PostsContainer = styled.div`
+export const PostsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 64%;
@@ -104,4 +75,11 @@ const PostsContainer = styled.div`
   @media (max-width: 950px) {
     width: 100%;
   }
+`;
+
+export const Condicional = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  align-items: center;
 `;
