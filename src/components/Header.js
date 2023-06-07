@@ -119,10 +119,13 @@ const LogOut = styled.div`
     text-align: center;
     position: absolute;
     bottom: -45px;
-    cursor: pointer;
     color: #FFFFFF;
     right: 0;
     display: ${props => !props.open ? 'none!important' : 'block'};
+    cursor: pointer;
+    :hover{
+        opacity: 0.5;
+    }
     @media (max-width: 600px){
         width: 15%;
     }

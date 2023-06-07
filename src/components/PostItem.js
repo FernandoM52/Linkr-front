@@ -49,7 +49,7 @@ export default function PostItem(props, post) {
   }
 
   return (
-    <Posts id={id}>
+    <Posts id={id} data-test="post">
       <LeftSide>
         <img alt="user" src={userPhoto} />
         <LikeButton postId={post.id} />
@@ -63,9 +63,9 @@ export default function PostItem(props, post) {
             <OKButton onClick={deletePost}>Yes, delete</OKButton>
           </WrapperButton>
         </Modal>
-        <h3 onClick={() => navigate(`/user/${user_id}`)}>{userName}</h3>
-        <p>{renderPostDescription()}</p>
-        <LinkContainer onClick={() => window.open(link)}>
+        <h3 data-test="username" onClick={() => navigate(`/user/${user_id}`)}>{userName}</h3>
+        <p data-test="description">{renderPostDescription()}</p>
+        <LinkContainer data-test="link" onClick={() => window.open(link)}>
           <InfoContainer>
             {title ? <Title>{title}</Title> : ""}
             <Description>{description}</Description>

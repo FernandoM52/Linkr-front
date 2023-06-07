@@ -46,7 +46,7 @@ export default function HomePage() {
         <PageTitle><h2>timeline</h2></PageTitle>
         <DisplayBox>
           <PostsContainer>
-            <NewPost>
+            <NewPost data-test="publish-box">
               <img
                 src={user.user?.photo}
                 alt="userPhoto"
@@ -56,6 +56,7 @@ export default function HomePage() {
                 <p>What are you going to share today?</p>
 
                 <NewPostUrl
+                  data-test="link"
                   type="text"
                   placeholder="http://..."
                   required
@@ -65,13 +66,14 @@ export default function HomePage() {
                 />
 
                 <NewPostDescription
+                  data-test="publish-btn"
                   placeholder="Awesome article about #javascript"
                   disabled={isLoading}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                 />
 
-                <PublishButton type="submit" disabled={isLoading}>
+                <PublishButton data-test="publish-btn" type="submit" disabled={isLoading}>
                   {isLoading ? "Publishing" : "Publish"}
                 </PublishButton>
               </NewPostInfos>
