@@ -83,3 +83,9 @@ export const Condicional = styled.div`
   font-size: 24px;
   align-items: center;
 `;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+`;

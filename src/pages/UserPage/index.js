@@ -4,14 +4,15 @@ import Header from "../../components/Header";
 import TrendingColumn from "../../components/TrendingColumn/TrendingColum";
 import { useGetTrendings } from "../../services/trendings";
 import { useParams } from "react-router-dom";
-import UserPosts from "../UsersPosts";
 import {
   Container,
   PageTitle,
   DisplayBox,
   PostsContainer,
   Condicional,
+  Wrapper,
 } from "./style.js";
+import PostItem from "../../components/PostItem";
 
 export default function UserPage() {
   const { trendings } = useGetTrendings();
@@ -48,7 +49,21 @@ export default function UserPage() {
         </PageTitle>
         <DisplayBox>
           <PostsContainer>
-            <UserPosts posts={posts} />
+            <Wrapper>
+              {posts.map((p) => (
+                <PostItem
+                  key={p.id}
+                  link={p.link}
+                  content={p.content}
+                  image={p.image}
+                  description={p.description}
+                  title={p.title}
+                  userId={p.user_id}
+                  userPhoto={p.photo}
+                  userName={p.name}
+                />
+              ))}
+            </Wrapper>
           </PostsContainer>
 
           <TrendingColumn trendings={trendings} />
