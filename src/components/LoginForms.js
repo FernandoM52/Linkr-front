@@ -119,7 +119,7 @@ const LoginFormDiv = styled.div`
         margin-bottom:22px;
         input{
             height:65px;
-            width:93%;
+            width:100%;
             border:none;
             border-radius:5px;
             margin-bottom:13px;

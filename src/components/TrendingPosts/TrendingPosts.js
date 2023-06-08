@@ -5,7 +5,7 @@ import ReactStringReplace from "react-string-replace";
 
 export default function TrendingPosts(props) {
   const {
-    content, description, image, likes_count, link, title, name, photo
+    content, description, image, likes_count, link, title, userName, userPhoto
   } = props.posts;
 
   function renderPostDescription() {
@@ -20,7 +20,7 @@ export default function TrendingPosts(props) {
     <Post data-test="post" >
       <LeftSide>
         <UserImage>
-          <img src={photo} alt="Foto do usuário" />
+          <img src={userPhoto} alt="Foto do usuário" />
         </UserImage>
         <LikeBox>
           <HiOutlineHeart />
@@ -28,7 +28,7 @@ export default function TrendingPosts(props) {
         </LikeBox>
       </LeftSide>
       <RightSide>
-        <UserName>{name}</UserName>
+        <UserName>{userName}</UserName>
         <PostDescription>
           {renderPostDescription()}
         </PostDescription>

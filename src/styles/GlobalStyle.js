@@ -6,7 +6,14 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .ReactModal__Overlay{
-    z-index: 4;
+    z-index: 10;
+  }
+
+  .StyleInfiniteScroll{
+    width: 64%;
+    @media (max-width:  950px ){
+    width: 100%;
+  }
   }
 `;
 

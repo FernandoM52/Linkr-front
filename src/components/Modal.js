@@ -3,13 +3,13 @@ import ReactModal from "react-modal";
 
 export function Modal(props) {
     const { showModal } = props;
-    console.log(showModal)
+    //console.log(showModal)
 
     return (
-     
+
         <ReactModal
             isOpen={showModal}
-            okButtonProps={{style: {backgroundColor: '#1877F2'}}}
+            okButtonProps={{ style: { backgroundColor: '#1877F2' } }}
             style={
                 {
                     overlay: {
@@ -20,7 +20,7 @@ export function Modal(props) {
                         bottom: 0,
                         backgroundColor: 'rgba(255, 255, 255, 0.8)',
                         ZIndex: '4'
-                    
+
                     },
                     content: {
                         width: '33%',
@@ -45,14 +45,14 @@ export function Modal(props) {
                         flexDirection: 'column',
                         justifyContent: 'space-around'
                     }
-                   
-                  
+
+
                 }
-                
+
             }
         >
             {props.children}
-    </ReactModal>
+        </ReactModal>
     );
 
 }

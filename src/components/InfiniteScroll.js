@@ -1,6 +1,6 @@
 import InfiniteScroll from 'react-infinite-scroller';
 
-export default function InfiniteScroll({ loadMore, hasMore, loader, children }) {
+export default function InfiniteScrollTimeline({ loadMore, hasMore, loader, children }) {
   function handleLoadMore() {
     if (loadMore) {
       loadMore();
@@ -11,8 +11,9 @@ export default function InfiniteScroll({ loadMore, hasMore, loader, children }) 
     <InfiniteScroll
       pageStart={0}
       loadMore={handleLoadMore}
-      hasMore={hasMorePosts}
-      loader={<></>}
+      hasMore={hasMore}
+      loader={loader}
+      className="StyleInfiniteScroll"
     >
       {children}
     </InfiniteScroll>
