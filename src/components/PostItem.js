@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import ReactStringReplace from "react-string-replace";
 import { Modal } from "../components/Modal";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../providers/auth";
+import Loading from "./Loading";
 
 export default function PostItem(props, post) {
   const {
@@ -20,6 +22,8 @@ export default function PostItem(props, post) {
     userName,
   } = props;
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -31,11 +35,25 @@ export default function PostItem(props, post) {
     setShowModal(false);
   }
 
-  function deletePost() {
-    axios
-      .delete(`${process.env.REACT_APP_API_URL}/home/${id}`)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err.response.data));
+  async function deletePost() {
+    setIsLoading(true);
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+
+    await axios
+      .delete(`${process.env.REACT_APP_API_URL}/home/${id}`, config)
+      .then((res) => {
+        setIsLoading(false);
+        window.location.reload(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        alert("Não foi possível excluir o Post");
+      });
 
     setShowModal(false);
   }
@@ -58,12 +76,22 @@ export default function PostItem(props, post) {
         <HiTrash size={22} onClick={handleOpenModal} />
         <Modal showModal={showModal}>
           <p> Are you sure you want to delete this post?</p>
-          <WrapperButton>
-            <CancelButton onClick={handleCloseModal}>No, go back</CancelButton>
-            <OKButton onClick={deletePost}>Yes, delete</OKButton>
-          </WrapperButton>
+          {!isLoading ? (
+            <WrapperButton>
+              <CancelButton onClick={handleCloseModal}>
+                No, go back
+              </CancelButton>
+              <OKButton onClick={deletePost}>Yes, delete</OKButton>
+            </WrapperButton>
+          ) : (
+            <WrapperButton>
+              <Loading />
+            </WrapperButton>
+          )}
         </Modal>
-        <h3 data-test="username" onClick={() => navigate(`/user/${user_id}`)}>{userName}</h3>
+        <h3 data-test="username" onClick={() => navigate(`/user/${user_id}`)}>
+          {userName}
+        </h3>
         <p data-test="description">{renderPostDescription()}</p>
         <LinkContainer data-test="link" onClick={() => window.open(link)}>
           <InfoContainer>

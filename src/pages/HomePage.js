@@ -25,13 +25,15 @@ export default function HomePage() {
       },
     };
 
-    axios.post(`${process.env.REACT_APP_API_URL}/home`, body, config)
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/home`, body, config)
       .then((res) => {
         setLink("");
         setContent("");
         setIsLoading(false);
+        window.location.reload(false);
       })
-      .catch(err => {
+      .catch((err) => {
         alert("Houve um erro ao publicar seu link");
         setLink("");
         setContent("");
@@ -43,14 +45,13 @@ export default function HomePage() {
     <>
       <Header />
       <Container>
-        <PageTitle><h2>timeline</h2></PageTitle>
+        <PageTitle>
+          <h2>timeline</h2>
+        </PageTitle>
         <DisplayBox>
           <PostsContainer>
             <NewPost data-test="publish-box">
-              <img
-                src={user.user?.photo}
-                alt="userPhoto"
-              />
+              <img src={user.user?.photo} alt="userPhoto" />
 
               <NewPostInfos onSubmit={publishPost}>
                 <p>What are you going to share today?</p>
@@ -66,14 +67,18 @@ export default function HomePage() {
                 />
 
                 <NewPostDescription
-                  data-test="publish-btn"
+                  data-test="description"
                   placeholder="Awesome article about #javascript"
                   disabled={isLoading}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                 />
 
-                <PublishButton data-test="publish-btn" type="submit" disabled={isLoading}>
+                <PublishButton
+                  data-test="publish-btn"
+                  type="submit"
+                  disabled={isLoading}
+                >
                   {isLoading ? "Publishing" : "Publish"}
                 </PublishButton>
               </NewPostInfos>
@@ -99,7 +104,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  @media (max-width:  600px ){
+  @media (max-width: 600px) {
     align-items: flex-start;
     gap: 19px;
   }
@@ -108,34 +113,34 @@ const Container = styled.div`
 const PageTitle = styled.div`
   padding-top: 7%;
   width: 65%;
-  @media (max-width:  600px ){
-      width: 100%;
-    }
-  h2{
-    font-family: 'Oswald', sans-serif;
-    color: #FFFFFF;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+  h2 {
+    font-family: "Oswald", sans-serif;
+    color: #ffffff;
     font-weight: 700;
     font-size: 43px;
     line-height: 64px;
-    @media (max-width:  880px ){
+    @media (max-width: 880px) {
       padding-top: 5%;
     }
-    @media (max-width:  415px ){
+    @media (max-width: 415px) {
       font-size: 33px;
       line-height: 49px;
     }
-    @media (max-width:  375px ){
+    @media (max-width: 375px) {
       padding-top: 5%;
     }
   }
-  @media (max-width:  875px ){
+  @media (max-width: 875px) {
     width: 80%;
   }
-  @media (max-width:  600px ){
+  @media (max-width: 600px) {
     padding-top: 10%;
     padding-left: 4%;
   }
-  @media (max-width:  415px ){
+  @media (max-width: 415px) {
     padding-top: 15%;
   }
 `;
@@ -145,10 +150,10 @@ const DisplayBox = styled.div`
   justify-content: space-between;
   width: 65%;
   padding-top: 3%;
-  @media (max-width:  875px ){
+  @media (max-width: 875px) {
     width: 80%;
   }
-  @media (max-width:  600px ){
+  @media (max-width: 600px) {
     padding-top: 0;
     width: 100%;
   }
@@ -160,7 +165,7 @@ const PostsContainer = styled.div`
   width: 64%;
   gap: 25px;
   min-height: 1000px;
-  @media (max-width:  950px ){
+  @media (max-width: 950px) {
     width: 100%;
   }
 `;
@@ -173,7 +178,7 @@ const NewPost = styled.div`
   border-radius: 16px;
   background-color: #ffffff;
   display: flex;
-  @media (max-width:  600px ){
+  @media (max-width: 600px) {
     border-radius: 0;
   }
   img {

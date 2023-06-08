@@ -78,9 +78,11 @@ export const PostsContainer = styled.div`
 `;
 
 export const Condicional = styled.div`
+  background: #333333;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
-  font-size: 24px;
   align-items: center;
 `;
 
