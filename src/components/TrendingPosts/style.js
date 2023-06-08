@@ -75,6 +75,7 @@ export const PostDescription = styled.p`
   font-size: 17px;
   line-height: 20px;
   color: #B7B7B7;
+  word-break: break-all;
   @media (max-width: 415px){
     width: 100%;
   }
