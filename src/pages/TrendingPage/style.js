@@ -65,7 +65,7 @@ export const Main = styled.main`
 export const Timeline = styled.ul`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 64%;
   gap: 16px;
   @media (max-width:  950px ){
     width: 100%;

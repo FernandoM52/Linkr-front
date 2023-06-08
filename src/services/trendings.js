@@ -18,27 +18,22 @@ export function useGetTrendings() {
     getTrendings();
   }, []);
 
-  return { trendings, getTrendings };
+  return {
+    trendings
+  };
 }
 
 export function useGetTrendingPosts() {
+  const [timeline, setTimeline] = useState(undefined);
   const { user } = useContext(AuthContext);
-  const [timeline, setTimeline] = useState([]);
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
 
   const config = { headers: { Authorization: `Bearer ${user.token}` } }
 
   function getTrendingPosts(hashtag) {
-    axios.get(`${process.env.REACT_APP_API_URL}/hashtag/${hashtag}?offset=${offset}`, config)
-      .then(res => {
-        const newPosts = res.data;
-        setTimeline((prevTimeline) => [...prevTimeline, ...newPosts]);
-        setOffset((prevOffset) => prevOffset + newPosts.length);
-        setHasMore(newPosts.length > 0);
-      })
+    axios.get(`${process.env.REACT_APP_API_URL}/hashtag/${hashtag}`, config)
+      .then(res => setTimeline(res.data))
       .catch(err => console.log(err.response))
   }
 
-  return { getTrendingPosts, timeline, hasMore };
+  return { timeline, getTrendingPosts };
 }
