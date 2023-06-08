@@ -25,12 +25,13 @@ export default function HomePage() {
       },
     };
 
-    axios
+    await axios
       .post(`${process.env.REACT_APP_API_URL}/home`, body, config)
       .then((res) => {
         setLink("");
         setContent("");
         setIsLoading(false);
+        window.location.reload(false);
       })
       .catch((err) => {
         alert("Houve um erro ao publicar seu link");
