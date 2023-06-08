@@ -4,12 +4,13 @@ import Header from "../../components/Header";
 import TrendingColumn from "../../components/TrendingColumn/TrendingColum";
 import TrendingPosts from "../../components/TrendingPosts/TrendingPosts";
 import { Main, Screen, Timeline, TrendingTitle } from "./style";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import InfiniteScrollTimeline from "../../components/InfiniteScroll";
 
 export default function TrendingPage() {
   const { hashtag } = useParams();
   const { trendings } = useGetTrendings();
-  const { timeline, getTrendingPosts } = useGetTrendingPosts();
+  const { getTrendingPosts, timeline, hasMore } = useGetTrendingPosts();
 
   useEffect(() => {
     getTrendingPosts(hashtag);
@@ -23,11 +24,12 @@ export default function TrendingPage() {
           <h2 data-test="hashtag-title">{hashtag.replace(`${hashtag}`, `#${hashtag}`)}</h2>
         </TrendingTitle>
         <Main>
-          <Timeline>
-            {!timeline && <>Carregando...</>}
-            {timeline && timeline.length === 0 && <>Não há posts dessa trending</>}
-            {timeline && timeline?.map((t, i) => <TrendingPosts key={i} posts={t} />)}
-          </Timeline>
+          <InfiniteScrollTimeline loadMore={getTrendingPosts} hasMore={hasMore} loader={<div>Carregando</div>}>
+            <Timeline>
+              {timeline && timeline.length === 0 && <>Não há posts dessa trending</>}
+              {timeline && timeline?.map((t, i) => <TrendingPosts key={i} posts={t} />)}
+            </Timeline>
+          </InfiniteScrollTimeline>
           <TrendingColumn trendings={trendings} />
         </Main>
       </Screen>
