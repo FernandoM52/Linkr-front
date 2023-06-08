@@ -16,7 +16,7 @@ export default function TrendingColumn({ trendings }) {
             <TrendingItem
               data-test="hashtag"
               key={i}
-              onClick={() => navigate(`/hashtag/${hashtag.replace("#", "")}`)}
+              onClick={() => { navigate(`/hashtag/${hashtag}`) }}
             >
               {`# ${hashtag}`}
             </TrendingItem>
