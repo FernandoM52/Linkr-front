@@ -13,6 +13,7 @@ import {
   Wrapper,
 } from "./style.js";
 import PostItem from "../../components/PostItem";
+import Loading from "../../components/Loading";
 
 export default function UserPage() {
   const { trendings } = useGetTrendings();
@@ -37,7 +38,11 @@ export default function UserPage() {
   }
 
   if (posts.length === 0) {
-    return <Condicional>Loading...</Condicional>;
+    return (
+      <Condicional>
+        <Loading />
+      </Condicional>
+    );
   }
 
   return (
