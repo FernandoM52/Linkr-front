@@ -34,8 +34,8 @@ export default function SearchBar() {
 
       {searchMatch.length >= 1 ? (
         <Teste>
-          {searchMatch.map((s) => (
-            <div onClick={() => navigate(`/user/${s.id}`)}>
+          {searchMatch.map((s, i) => (
+            <div key={i} onClick={() => navigate(`/user/${s.id}`)}>
               <img src={s.photo} alt="" />
               <p>{s.name}</p>
             </div>
