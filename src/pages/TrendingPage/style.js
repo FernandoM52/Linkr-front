@@ -70,3 +70,13 @@ export const Timeline = styled.ul`
     width: 100%;
   }
 `;
+export const LoadingMessage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 26px;
+  color: #6D6D6D;
+`;
