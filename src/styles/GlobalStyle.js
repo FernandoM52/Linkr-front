@@ -13,11 +13,7 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 41%;
-    height: 25%;
-    @media(max-width: 886px){
-      height: 42;
-    }
+    width: 100%;
   }
 `;
 

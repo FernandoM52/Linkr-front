@@ -2,7 +2,6 @@ import ReactModal from "react-modal";
 
 export function Modal(props) {
   const { showModal } = props;
-  //console.log(showModal)
 
   return (
     <ReactModal
