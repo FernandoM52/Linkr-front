@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
-import HomePage from "./pages/HomePage";
-import { AuthProvider } from "./providers/auth";
+import HomePage from "./pages/HomePage/index";
 import TrendingPage from "./pages/TrendingPage/index";
 import UserPage from "./pages/UserPage/index";
+import { AuthProvider } from "./providers/auth";
 
 function App() {
   return (

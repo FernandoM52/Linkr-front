@@ -3,7 +3,7 @@ import { useGetTrendings } from "../../services/trendings";
 import Header from "../../components/Header";
 import TrendingColumn from "../../components/TrendingColumn/TrendingColum";
 import TrendingPosts from "../../components/TrendingPosts/TrendingPosts";
-import { Main, Screen, Timeline, TrendingTitle } from "./style";
+import { LoadingMessage, Main, Screen, Timeline, TrendingTitle } from "./style";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/auth";
 import api from "../../services/api";
@@ -57,7 +57,7 @@ export default function TrendingPage() {
                 dataLength={posts.length}
                 next={() => setPage((prevPage) => prevPage + 1)}
                 hasMore={hasMore}
-                loader={<h4>Carregando...</h4>}
+                loader={<LoadingMessage>Carregando...</LoadingMessage>}
                 endMessage={<></>}
               >
                 {posts && posts.map((t, index) => <TrendingPosts key={index} posts={t} />)}

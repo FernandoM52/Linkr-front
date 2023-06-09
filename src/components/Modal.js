@@ -16,12 +16,11 @@ export function Modal(props) {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          ZIndex: "4",
+          backgroundColor: "rgba(255, 255, 255, 0.8)"
         },
         content: {
           width: "33%",
-          height: "262px",
+          height: "25%",
           position: "absolute",
           top: "30%",
           left: "32%",

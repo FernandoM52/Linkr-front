@@ -12,8 +12,12 @@ const GlobalStyle = createGlobalStyle`
   .StyleInfiniteScroll{
     display: flex;
     flex-direction: column;
-    width: 100%;
     gap: 16px;
+    width: 41%;
+    height: 25%;
+    @media(max-width: 886px){
+      height: 42;
+    }
   }
 `;
 

@@ -12,7 +12,7 @@ import {
   Condicional,
   Wrapper,
 } from "./style.js";
-import PostItem from "../../components/PostItem";
+import PostItem from "../../components/PostItem/PostItem";
 import Loading from "../../components/Loading";
 
 export default function UserPage() {
