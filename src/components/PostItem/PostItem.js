@@ -4,13 +4,15 @@ import LikeButton from "../LikeButton";
 import ReactStringReplace from "react-string-replace";
 import { Modal } from "../Modal";
 import { useState, useContext } from "react";
-import axios from "axios";
 import { AuthContext } from "../../providers/auth";
-import { CancelButton, Description, ImageStyle, InfoContainer, LeftSide, LinkContainer, LinkStyle, MainContent, OKButton, Posts, Title, WrapperButton } from "./style";
+import {
+  CancelButton, Description, ImageStyle, InfoContainer, LeftSide, LinkContainer, LinkStyle, MainContent, OKButton, Posts, Title, WrapperButton
+} from "./style";
 import Loading from "../Loading";
+import api from "../../services/api";
 
 
-export default function PostItem(props, post) {
+export default function PostItem(props) {
   const {
     link,
     content,
@@ -21,33 +23,20 @@ export default function PostItem(props, post) {
     user_id,
     userPhoto,
     userName,
+    likesCount,
+    isLiked
   } = props;
 
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
-  function handleOpenModal() {
-    setShowModal(true);
-  }
 
-  function handleCloseModal() {
-    setShowModal(false);
-  }
-
-  async function deletePost() {
+  function deleteOnePost() {
     setIsLoading(true);
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-
-    await axios
-      .delete(`${process.env.REACT_APP_API_URL}/home/${id}`, config)
+    const promise = api.deletePost(user.token, id)
       .then((res) => {
         setIsLoading(false);
         window.location.reload(false);
@@ -72,18 +61,18 @@ export default function PostItem(props, post) {
     <Posts id={id} data-test="post">
       <LeftSide>
         <img alt="user image" src={userPhoto} />
-        <LikeButton postId={post.id} />
+        <LikeButton postId={id} userId={user_id} likesCount={likesCount} isLiked={isLiked} />
       </LeftSide>
       <MainContent>
-        <HiTrash size={22} onClick={handleOpenModal} />
+        <HiTrash size={22} onClick={() => setShowModal(true)} />
         <Modal showModal={showModal}>
           <p> Are you sure you want to delete this post?</p>
           {!isLoading ? (
             <WrapperButton>
-              <CancelButton onClick={handleCloseModal}>
+              <CancelButton onClick={() => setShowModal(false)}>
                 No, go back
               </CancelButton>
-              <OKButton onClick={deletePost}>Yes, delete</OKButton>
+              <OKButton onClick={deleteOnePost}>Yes, delete</OKButton>
             </WrapperButton>
           ) : (
             <WrapperButton>
@@ -106,7 +95,6 @@ export default function PostItem(props, post) {
               :
               <></>
             }
-
           </InfoContainer>
           <ImageStyle>
             {image !== "" ? (

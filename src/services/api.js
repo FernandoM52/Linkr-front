@@ -8,7 +8,29 @@ function createPost(token, body) {
   const config = createConfig(token);
 
   const promise = axios.post(`${process.env.REACT_APP_API_URL}/home`, body, config);
-  return promise
+  return promise;
+}
+
+function deletePost(token, id) {
+  const config = createConfig(token);
+
+  const promise = axios.delete(`${process.env.REACT_APP_API_URL}/home/${id}`, config)
+  return promise;
+}
+
+function likePost(token, body) {
+  const config = createConfig(token);
+  const { postId } = body;
+
+  const promise = axios.post(`${process.env.REACT_APP_API_URL}/like/${postId}`, body, config)
+  return promise;
+}
+
+function getLikedPostsByUser(token) {
+  const config = createConfig(token);
+
+  const promise = axios.get(`${process.env.REACT_APP_API_URL}/liked-posts`, config)
+  return promise;
 }
 
 function getAllPosts(token) {
@@ -26,6 +48,8 @@ function getTrendingPostsByHashtag(token, hashtag, page) {
   return promise;
 }
 
-const api = { getTrendingPostsByHashtag, getAllPosts, createPost }
+const api = {
+  getTrendingPostsByHashtag, getAllPosts, createPost, deletePost, likePost, getLikedPostsByUser
+}
 
 export default api;

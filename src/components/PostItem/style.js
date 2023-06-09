@@ -1,15 +1,12 @@
 import styled from "styled-components";
 
 export const Posts = styled.div`
-  * {
-    box-sizing: border-box;
-    font-family: "Lato";
-  }
   background: #171717;
   border-radius: 16px;
   width: 100%;
   height: fit-content;
   display: flex;
+  justify-content: space-around;
   padding: 20px;
   gap: 18px;
   @media (max-width: 600px) {
@@ -20,29 +17,14 @@ export const Posts = styled.div`
 export const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
-  width: 14%;
   justify-content: flex-start;
   align-items: center;
   gap: 19px;
-
   img {
     width: 50px;
     height: 50px;
     border-radius: 26.5px;
     object-fit: cover;
-  }
-  div {
-    gap: 4px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    svg {
-      cursor: pointer;
-    }
-    p {
-      color: white;
-      font-size: 11px;
-    }
   }
 `;
 
@@ -112,6 +94,7 @@ export const WrapperButton = styled.div`
     font-weight: 700;
     font-size: 19px;
     line-height: 22px;
+    cursor: pointer;
     p{
       width: 56%;
       @media (max-width: 886px){
@@ -146,7 +129,6 @@ export const InfoContainer = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start; */
   justify-content: space-between;
   margin: 24px 20px;
   gap: 10px;

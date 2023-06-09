@@ -14,6 +14,7 @@ export default function HomePage() {
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [posts, setPosts] = useState([]);
+  const [postLikes, setPostLikes] = useState({});
   const { user } = useContext(AuthContext);
   const { trendings } = useGetTrendings();
 
@@ -21,6 +22,9 @@ export default function HomePage() {
     loadPosts();
   }, []);
 
+  useEffect(() => {
+    loadLikes(user.token);
+  }, [user.token, posts]);
 
   function publishPost(e) {
     e.preventDefault();
@@ -47,6 +51,18 @@ export default function HomePage() {
     const promise = api.getAllPosts(user.token)
     promise.then(res => setPosts(res.data))
     promise.catch(err => alert("An error ocurred while tryng to fetch the posts, please refresh the page"));
+  }
+
+  function loadLikes() {
+    const promise = api.getLikedPostsByUser(user.token);
+    promise
+      .then((res) => {
+        const likedPosts = Array.isArray(res.data) ? res.data : [];
+        const likesData = {};
+        likedPosts.forEach((post) => likesData[post.id] = true);
+        setPostLikes(likesData);
+      })
+      .catch((err) => console.log(err.response.data));
   }
 
   return (
@@ -106,6 +122,8 @@ export default function HomePage() {
                   user_id={p.user_id}
                   userPhoto={p.photo}
                   userName={p.name}
+                  likesCount={p.likes_count}
+                  isLiked={postLikes[p.id] || false}
                 />
               ))}
             </PostList>
